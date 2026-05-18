@@ -1,30 +1,21 @@
+from cProfile import label
+
+from pandas import options
 import streamlit as st
 
-st.title("📋 사용자 정보 입력 폼")
+fruit = st.selectbox("좋아하는 과일을 선택하세요", ["사과", "바나나", "체리"])
+st.write("선택한 과일:", fruit)
 
-# 1. 사용자 입력 위젯
-name = st.text_input("🧑 이름을 입력하세요")
-age = st.number_input("🎂 나이를 입력하세요", min_value=0, max_value=120, step=1)
-gender = st.radio("🚻 성별을 선택하세요", ["남자", "여자", "기타"])
-interests = st.multiselect("💡 관심 있는 주제를 선택하세요", ["인공지능", "데이터 분석", "웹 개발", "금융", "디자인"])
-description = st.text_area("📘 자기소개 또는 하고 싶은 말")
-agree = st.checkbox("✅ 개인정보 수집 및 이용에 동의합니다")
-
-# 2. 제출 버튼
-if st.button("제출"):
-    if not name:
-        st.warning("이름을 입력하세요.")
-    elif not agree:
-        st.error("개인정보 수집 동의가 필요합니다.")
-    else:
-        # 3. 결과 출력
-        st.success("입력이 완료되었습니다! 🎉")
-        st.markdown("---")
-        st.subheader("📄 제출 내용 요약")
-        st.write(f"**이름:** {name}")
-        st.write(f"**나이:** {age}세")
-        st.write(f"**성별:** {gender}")
-        st.write(f"**관심 주제:** {', '.join(interests) if interests else '없음'}")
-        st.write("**소개글:**")
-        st.info(description if description else "작성하지 않음")
+users = [{"id": 1, "name": "홍길동"}, {"id": 2, "name": "이몽룡"}]
+selected_user = st.selectbox(
+    "사용자 선택",
+    users,
+    format_func=lambda x: f"{x['name']} (ID: {x['id']})"
+)
+st.write("선택한 사용자 ID:", selected_user['id'])
+선택값 = st.multiselect(
+    label,              # 사용자에게 보여질 라벨 (문자열)
+    options,            # 선택 가능한 항목 리스트
+    default=None        # (선택) 기본 선택값, 하나 또는 여러 개
+)
 
